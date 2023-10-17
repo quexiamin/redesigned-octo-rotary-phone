@@ -1,0 +1,61 @@
+int x,y;
+Pixel [] imgPixels;
+
+void setup ()
+{
+  size (800,600,P3D);
+  img = loadImage ("fire.jpg");
+  img . updatePixels();
+  imgPixels = new Pixel[img.height * img.width];
+ 
+ for ( int y =0; y < img.height; y ++)
+ {
+   for ( int x =0; x < img.width; x ++)
+   {
+     int pixIndx = y* img . width +x ;
+    
+     color c = img. pixels [pixIndx];
+     imgPixels[pixIndx]= new Pixel (x,y,c);
+   }
+   
+  }
+  
+}
+void draw ()
+{
+ background(#FFFFFF);
+ translate(width/2-img.width/2, height/2-img.height/2);
+ for(int i =0;i<imgPixels.length; i++)
+ {
+   imgPixels [i]. draw ();
+ }
+ translate(width/2, height/2);
+for (int i = 0; i < particleCols; i++) {
+    for (int j = 0; j < particleRows; j++) {
+      float x = map(i, 0, particleCols-1, -width/2 + offset, width/2 - offset);
+      float y = map(j, 0, particleRows-1, -height/2 + offset, height/2 - offset);
+      
+      float targetX = map(i, 0, particleCols-1, -width/2 + offset, width/2 - offset);
+      float targetY = map(j, 0, particleRows-1, -height/2 + offset, height/2 - offset);
+      
+      float distance = dist(x, y, 0, targetX, targetY, 0);
+      
+      float lerpAmount = constrain(map(distance, 0, max(width, height), 0, 1), 0, 1);
+      
+      float lerpedX = lerp(x, targetX, lerpAmount);
+      float lerpedY = lerp(y, targetY, lerpAmount);
+      
+      float z = map(sin(lerpedX * 0.01 + frameCount * 0.1), -1, 1, -200, 200);
+      
+      pushMatrix();
+      translate(lerpedX, lerpedY, zOffset + z);
+      float size = map(sin(lerpedX * 0.01 + frameCount * 0.1), -1, 1, 1, particleSize);
+      stroke(img.get(int(lerpedX + width/2), int(lerpedY + height/2)));
+      strokeWeight(size);
+      point(0, 0);
+      popMatrix();
+      
+      zOffset += speed * 0.1;
+    }
+  }
+}
