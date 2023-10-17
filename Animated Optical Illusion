@@ -2,14 +2,14 @@ PImage img;
 void setup( ){ 
 size(942,950); 
 frameRate(20);
-img=loadImage("11.jpg");
+img=loadImage("鹿.jpg");//引入图片
 }
 void draw(){
   background(img); 
   stroke(#3B3B3B); 
   strokeWeight(2); 
    strokeCap(PROJECT);
-  line(0,942,0,950,4.79,0.5);
+  line(0,942,0,950,4.79,0.5);//线条定义
 }
 
 void line(float startX, float endX, float startY, float endY, float offSet, float vel) {
