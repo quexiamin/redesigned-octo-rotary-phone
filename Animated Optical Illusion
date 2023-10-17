@@ -1,0 +1,24 @@
+PImage img;  
+void setup( ){ 
+size(942,950); 
+frameRate(20);
+img=loadImage("11.jpg");
+}
+void draw(){
+  background(img); 
+  stroke(#3B3B3B); 
+  strokeWeight(2); 
+   strokeCap(PROJECT);
+  line(0,942,0,950,4.79,0.5);
+}
+
+void line(float startX, float endX, float startY, float endY, float offSet, float vel) {
+  float mRange = abs(endX-startX); 
+  translate(startX, startY);
+  for (float j= -1*mRange; j< mRange; j=j+offSet) { 
+    float x = j+(vel*frameCount)%(mRange); 
+    if (x>0&&x<mRange) {
+      line (x,0,x,endY-startY);
+    }
+  }
+}
